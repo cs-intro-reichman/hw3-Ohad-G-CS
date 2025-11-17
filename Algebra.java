@@ -1,4 +1,24 @@
 public class Algebra {
+
+    // Helper: מבצע היפוך סימן (0 - x) באמצעות לולאות בסיסיות בלבד, שובר את הרקורסיה.
+    private static int negate_base(int x) {
+        int solution = 0;
+        int counter = x;
+        
+        if (x >= 0) {
+            while (counter > 0) {
+                solution--;
+                counter--;
+            }
+        } else { // x < 0
+            while (counter < 0) {
+                solution++;
+                counter++;
+            }
+        }
+        return solution;
+    }
+
     public static void main(String args[]) {
         // Tests some of the operations
         System.out.println(plus(2,3)); // 2 + 3
@@ -21,12 +41,14 @@ public class Algebra {
     // Returns x1 + x2
     public static int plus(int x1, int x2) {
         int solution = x1;
-        int absoluteX2 = x2;
+        int absoluteX2;
 
         boolean shouldDecrement = false;
         if (x2 < 0) {
-            absoluteX2 = minus(0, x2); 
+            absoluteX2 = negate_base(x2); // משתמש בפונקציית בסיס
             shouldDecrement = true;
+        } else {
+            absoluteX2 = x2;
         }
 
         for (int i = 0; i < absoluteX2; i++) {
@@ -42,12 +64,14 @@ public class Algebra {
     // Returns x1 - x2
     public static int minus(int x1, int x2) {
         int solution = x1;
-        int absoluteX2 = x2;
+        int absoluteX2;
 
         boolean shouldIncrement = false;
         if (x2 < 0) {
-            absoluteX2 = minus(0, x2);
+            absoluteX2 = negate_base(x2); // משתמש בפונקציית בסיס
             shouldIncrement = true;
+        } else {
+            absoluteX2 = x2;
         }
 
         for (int i = 0; i < absoluteX2; i++) {
@@ -66,12 +90,12 @@ public class Algebra {
         
         int sign = 1;
         if (x1 < 0) {
-            x1 = minus(0, x1); 
-            sign = minus(0, sign); 
+            x1 = negate_base(x1); // משתמש בפונקציית בסיס
+            sign = negate_base(sign); 
         }
         if (x2 < 0) {
-            x2 = minus(0, x2); 
-            sign = minus(0, sign);
+            x2 = negate_base(x2); // משתמש בפונקציית בסיס
+            sign = negate_base(sign);
         }
 
         for (int i = 0; i < x2; i++) {
@@ -79,7 +103,7 @@ public class Algebra {
         }
         
         if (sign < 0) {
-            return minus(0, solution);
+            return negate_base(solution);
         }
         return solution;
     }
@@ -90,7 +114,7 @@ public class Algebra {
         
         boolean resultIsNegative = false;
         if (x < 0) {
-            x = minus(0, x);
+            x = negate_base(x);
             if (mod(n, 2) != 0) { 
                 resultIsNegative = true;
             }
@@ -104,7 +128,7 @@ public class Algebra {
         }
 
         if (resultIsNegative) {
-            return minus(0, solution);
+            return negate_base(solution);
         }
         return solution;
     }
@@ -115,11 +139,11 @@ public class Algebra {
 
         int sign = 1;
         if ((x1 < 0) ^ (x2 < 0)) {
-            sign = minus(0, 1);
+            sign = negate_base(1);
         }
 
-        int absX1 = (x1 < 0) ? minus(0, x1) : x1;
-        int absX2 = (x2 < 0) ? minus(0, x2) : x2;
+        int absX1 = (x1 < 0) ? negate_base(x1) : x1;
+        int absX2 = (x2 < 0) ? negate_base(x2) : x2;
 
         int n = absX1;
         int count = 0;
@@ -129,7 +153,7 @@ public class Algebra {
         }
         
         if (sign < 0) {
-            return minus(0, count);
+            return negate_base(count);
         }
         return count;
     }
@@ -138,8 +162,8 @@ public class Algebra {
     public static int mod(int x1, int x2) {
         if (x2 == 0) return x1; 
 
-        int absX1 = (x1 < 0) ? minus(0, x1) : x1;
-        int absX2 = (x2 < 0) ? minus(0, x2) : x2;
+        int absX1 = (x1 < 0) ? negate_base(x1) : x1;
+        int absX2 = (x2 < 0) ? negate_base(x2) : x2;
 
         int n = absX1;
         while (n >= absX2) {
@@ -147,7 +171,7 @@ public class Algebra {
         }
 
         if (x1 < 0) {
-            return minus(0, n);
+            return negate_base(n);
         }
         return n;
     } 
