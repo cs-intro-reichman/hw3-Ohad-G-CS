@@ -1,8 +1,3 @@
-// Implements algebraic operations and the square root function without using 
-// the Java operations a + b, a - b, a * b, a / b, a % b, and without calling 
-// Math.sqrt. All the functions in this class operate on int values and
-// return int values.
-
 public class Algebra {
     public static void main(String args[]) {
         // Tests some of the operations
@@ -30,7 +25,6 @@ public class Algebra {
 
         boolean shouldDecrement = false;
         if (x2 < 0) {
-            // Get absolute value of x2 (using subtraction)
             absoluteX2 = minus(0, x2); 
             shouldDecrement = true;
         }
@@ -47,15 +41,29 @@ public class Algebra {
 
     // Returns x1 - x2
     public static int minus(int x1, int x2) {
-        // x1 - x2 is equivalent to x1 + (-x2)
-        return plus(x1, times(x2, -1)); 
+        int solution = x1;
+        int absoluteX2 = x2;
+
+        boolean shouldIncrement = false;
+        if (x2 < 0) {
+            absoluteX2 = minus(0, x2);
+            shouldIncrement = true;
+        }
+
+        for (int i = 0; i < absoluteX2; i++) {
+            if (shouldIncrement) {
+                solution++;
+            } else {
+                solution--;
+            }
+        }
+        return solution;
     }
 
     // Returns x1 * x2
     public static int times(int x1, int x2) {
         int solution = 0;
         
-        // Determine the sign of the result
         int sign = 1;
         if (x1 < 0) {
             x1 = minus(0, x1); 
@@ -70,7 +78,6 @@ public class Algebra {
             solution = plus(solution, x1);
         }
         
-        // Apply the final sign
         if (sign < 0) {
             return minus(0, solution);
         }
@@ -83,18 +90,16 @@ public class Algebra {
         
         boolean resultIsNegative = false;
         if (x < 0) {
-            x = minus(0, x); // Convert to positive base
-            // If n is odd, the result is negative.
+            x = minus(0, x);
             if (mod(n, 2) != 0) { 
                 resultIsNegative = true;
             }
         }
         
-        // If x is 0 or 1, the result is x
         if(x == 1 || x == 0) return x; 
         
         int solution = x;
-        for (int p = 2; p <= n; p++) { //p reresent the חזקה
+        for (int p = 2; p <= n; p++) {
             solution = times(solution, x);
         }
 
@@ -108,13 +113,11 @@ public class Algebra {
     public static int div(int x1, int x2) {
         if (x2 == 0) return 0;
 
-        // Determine the sign of the result
         int sign = 1;
-        if ((x1 < 0) ^ (x2 < 0)) { // XOR: if signs are different
+        if ((x1 < 0) ^ (x2 < 0)) {
             sign = minus(0, 1);
         }
 
-        // Work with absolute values
         int absX1 = (x1 < 0) ? minus(0, x1) : x1;
         int absX2 = (x2 < 0) ? minus(0, x2) : x2;
 
@@ -125,7 +128,6 @@ public class Algebra {
             count++;
         }
         
-        // Apply the determined sign
         if (sign < 0) {
             return minus(0, count);
         }
@@ -136,7 +138,6 @@ public class Algebra {
     public static int mod(int x1, int x2) {
         if (x2 == 0) return x1; 
 
-        // Work with absolute values
         int absX1 = (x1 < 0) ? minus(0, x1) : x1;
         int absX2 = (x2 < 0) ? minus(0, x2) : x2;
 
@@ -145,7 +146,6 @@ public class Algebra {
             n = minus(n, absX2);
         }
 
-        // Apply the correct sign (remainder takes the sign of the dividend x1)
         if (x1 < 0) {
             return minus(0, n);
         }
@@ -166,7 +166,6 @@ public class Algebra {
                 return j;
             }
             
-            // Check if j*j exceeds x, or if overflow occurred (jSquared < 0)
             if (jSquared > x || jSquared < 0) { 
                 return minus(j, 1);
             }
